@@ -1,0 +1,148 @@
+html,body{ /*1*/
+	height:100%;
+}
+
+body{
+	background-image:url(../images/Angels_of_death.jpg); /*2*/ /*放入背景圖片*/
+	background-repeat:repeat-y; /*背景圖片不重複:no-repeat*/
+	background-size:cover; /*包覆全部*/
+	background-attachment:fixed; /*圖片背景固定*/
+	background-position:center top;
+}
+
+nav{
+	background-color:transparent; /*rgba(0,0,0,0);*/
+	box-shadow:none;
+}
+
+a,p,h1,h2,h3,span{ /*7*/
+	font-family:Microsoft JhengHei; /*字型:微軟正黑體*/
+	font-weight:bold; /*字型:粗體*/
+	text-decoration:none; /*超連結底線去除*/
+}
+
+h1{
+	font-size:30px;
+}
+
+h2{
+	font-size:25px;
+}
+
+h3{
+	font-size:20px;
+}
+
+.wrapper1{
+	width:635px; /*div侷限635px寬度*/
+	margin:0 auto;  /*上下無任何間距*/
+}
+
+.nav-wrapper{
+	width:535px;
+	margin:10px auto;
+}
+
+.wrapper2{
+	width:1000px; /*div侷限1000px寬度*/
+	margin:0 auto;  /*上下無任何間距*/
+}
+
+nav.menu{ /*3*/
+	background-color:rgba(0,0,0,0.5);
+}
+
+nav.menu ul{ /*4*/
+	list-style:none; /*ul標籤符號去除*/
+	/*padding-left:0px;*/
+}
+
+nav.menu ul li{ /*5*/
+	/*display:inline-block;*/ /*li同排*/
+	/*align:center;*/
+}
+
+nav.menu ul li a{ /*6*/
+	/*color:#fff;*/
+	/*display:block;*/  /*設為區塊*/
+	/*padding:10px 20px;*/
+	padding:0px 26px;
+}
+
+nav.menu ul li a:hover{ /*8*/ /*事件:游標移動到此位置*/
+	color:#ffea7a;
+	display:block;
+	/*padding:10px 20px;*/
+	background-color:rgba(0,0,0,0.5);
+}
+
+nav.menu ul li.active a{ /*9*/ /*覆蓋nav.menu ul li a效果*/
+	color:#FFC038;
+}
+
+.content{
+	color:#fff;
+	background-color:rgba(0,0,0,0.5);
+	padding:10px;
+	margin:10px;
+	border-radius:10px;
+}
+
+.home_info{
+	text-align:center; /*段落置中*/
+}
+
+.gameplay_info{
+	text-align:center; /*段落置中*/
+}
+
+div.myphoto{
+	float:left; /*浮起來靠左*/
+	width:20%;
+}
+
+div.infos{
+	float:left;
+	width:80%;
+}
+
+div.padding_left{
+	padding-left:10px;
+}
+
+img.myface{
+	width:100%;
+	border-radius:50%; /*圖片變圓形*/
+}
+
+.movie{
+	width:100%;
+	height:480px;
+}
+
+.gammer_info nav ul li a{
+	display:block;
+	padding-right:20px;
+	font-size:30px;
+}
+
+.gammer_info nav ul li a:hover{
+	vertical-align:middle;
+}
+
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+.clearfix { display: inline-block; }
+/* start commented backslash hack \*/
+* html .clearfix { height: 1%; }
+.clearfix { display: block; }
+/* close commented backslash hack */
+
+
+
