@@ -3,7 +3,7 @@ html,body{ /*1*/
 }
 
 body{
-	background-image:url(../images/Angels_of_death.jpg); /*2*/ /*放入背景圖片*/
+	background-image:url(../images/Elsword.jpg); /*2*/ /*放入背景圖片*/
 	background-repeat:repeat-y; /*背景圖片不重複:no-repeat*/
 	background-size:cover; /*包覆全部*/
 	background-attachment:fixed; /*圖片背景固定*/
@@ -49,7 +49,7 @@ h3{
 }
 
 nav.menu{ /*3*/
-	background-color:rgba(0,0,0,0.5);
+	background-color:rgba(0,0,0,0.6);
 }
 
 nav.menu ul{ /*4*/
@@ -73,7 +73,7 @@ nav.menu ul li a:hover{ /*8*/ /*事件:游標移動到此位置*/
 	color:#ffea7a;
 	display:block;
 	/*padding:10px 20px;*/
-	background-color:rgba(0,0,0,0.5);
+	background-color:rgba(0,0,0,0.6);
 }
 
 nav.menu ul li.active a{ /*9*/ /*覆蓋nav.menu ul li a效果*/
@@ -82,7 +82,7 @@ nav.menu ul li.active a{ /*9*/ /*覆蓋nav.menu ul li a效果*/
 
 .content{
 	color:#fff;
-	background-color:rgba(0,0,0,0.5);
+	background-color:rgba(0,0,0,0.6);
 	padding:10px;
 	margin:10px;
 	border-radius:10px;

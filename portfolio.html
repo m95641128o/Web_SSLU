@@ -21,7 +21,7 @@
 		<link rel="shortcut icon" href="images/favicon.ico">
 	</head>
 	<body>
-		<nav class="menu"><!--選單-->
+		<nav id="portfolio_info" class="menu"><!--選單-->
 			<div class="container"><!--包裝-->
 				<nav>
 					<div class="nav-wrapper">
@@ -53,25 +53,22 @@
 						<div class="col s12" align="center">
 							<table style="width:80%">
 								<tr>
-									<td colspan=2>
+									<td colspan=3>
 										<span>碎碎念：</span>
-										<p>&nbsp;&nbsp;&nbsp;&nbsp;這是放上某位人士之前的作品...</p>
-								<tr>
+										<p>&nbsp;&nbsp;&nbsp;&nbsp;這是某位人士之前的作品...</p>
+								<tr align=center>
 									<td width=50%>
 										<img src="portfolio/portfolio_1/gallery.gif" style="width:80%">
-									<td width=50%>
-										<a href="portfolio/portfolio_1/gallery.html" target="_blank">連結</a>
+									<td width=25%>
+										<a href="portfolio/portfolio_1/gallery.html" target="_blank" style="color:white">連結</a>
+									<td width=25%>
+										<a href="#portfolio_info" style="color:white;">
+											<i class="material-icons">arrow_upward</i>
+											<span>Top</span>
+										</a>
+										
 							</table>
 						</div>
-						
-						<!--
-						<div class="col s12">
-							<div class="video-container">
-								<iframe src="https://www.youtube.com/embed/fukJT_p7xrA" frameborder="0"></iframe>	
-							</div>
-							<h1>阿璩 遊戲實況</h1>
-						</div>
-						-->
 					</div>
 				</div>
 			</div>
@@ -80,7 +77,36 @@
 		<script>
 			$(document).ready(function(){
 				$('.sidenav').sidenav();
+				
+				/**
+				 * 點擊選單，捲動到該位置
+				 * 概念：
+				 * 當點擊選單中的超連結a時，抓取他href中要前往的目標id #xxx
+				 * 找到後，用jquery選擇器找到目標id元素的 scrollTop() 位置y座標
+				 * 然後透過jquery animate 方法，將html與body捲動到取得的目標y座標點
+				 * 移動後執行一個callback，將點選的超連結，其父元素給予active類別
+				 */
+				
+				$("tr td a").on("click", function(){
+					//取得要移動到哪個id
+					var a_elm = $(this);
+					var target_id = a_elm.attr("href");
+					//要捲到的高度，預設為0
+					var topTo = 0;
+					//如果目標，id 不等於 #，代表是有設定其他錨點
+					if(target_id != "#"){
+						//topTo就等於要捲到的位置
+						topTo = $(target_id).position().top;
+					}
+					//用jQuery animate方法，把html與body捲到適當的位置
+					$("html, body").animate({
+						scrollTop: topTo
+					}, 600,function(){});
+					//回傳 false 代表是阻止 a 超連結前往的動作，不要讓他前往預設的連結
+					return false;
+				});
 			});
+			
 		</script>
 	</body>
 </html>
