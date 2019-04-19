@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/84/three.min.js"></script>
+		<script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+		<title>水下流月-時光迴廊</title>
+	</head>
+	<body>
+		<h1 style="font-size:2em; text-align:center; margin:15px"> 
+			時光迴廊
+		</h1>
+		<hr>
+		<div id="welcome">
+			<p>雖然歲月已經過去了</p>
+			<p>但往事依舊在某些人心中永恆不忘</p>
+			<p>讓我們來看看在這時光迴廊中究竟有哪些點點滴滴</p>
+			<p>以及水下流月的前身及現在吧~</p>
+			<p>公會演進：紫月漾雲→Sky詠悅曲→水下流月</p>
+		</div>
+			
+		<div id="main1">
+			<table id="main2" align=center style="width:1200px;">
+				<tr>
+					<td align=left>
+						<div id="container"></div>
+					</td>
+					<td align=left style="height:550px;">
+						<div id="info">
+							<table width="20%" style="background-color:rgba(255,255,255,0.5); border-radius:10px;">
+								<tr align="center">
+									<td colspan="2">功能選單</td>
+								</tr>
+								<tr align="center">
+									<td width="40%">作品編號</td>
+									<td width="60%">
+										<select id="choosePortfolio" style="width:125px;font-family:Microsoft JhengHei;font-weight:bold;">
+											<option value="0">全視角</option>
+											<option value="1">1</option>
+											<option value="2">2</option>
+											<option value="3">3</option>
+											<option value="4">4</option>
+											<option value="5">5</option>
+											
+											<option value="6">6</option>
+											<option value="7">7</option>
+											<option value="8">8</option>
+											<option value="9">9</option>
+											<option value="10">10</option>
+											<option value="11">11</option>
+											
+											<option value="12">12</option>
+											<option value="13">13</option>
+											<option value="14">14</option>
+											<option value="15">15</option>
+											<option value="16">16</option>
+										</select>
+									</td>
+								</tr>
+								<tr align="center">
+									<td width="40%">監視器選項</td>
+									<td width="60%">
+										<select id="chooseCamera" style="width:125px;font-family:Microsoft JhengHei;font-weight:bold;">
+											<option value="0">全視角</option>
+											<option value="1">右1</option>
+											<option value="2">右2</option>
+											<option value="3">左1</option>
+											<option value="4">左2</option>
+										</select>
+									</td>
+								</tr>
+								<tr align="center">
+									<td colspan="2">
+										電燈總開關
+									</td>
+								</tr>
+								<tr align="center">
+									<td width="40%">
+										<button id="tView1">電燈開關</button>
+									</td>
+									<td width="60%">
+										亮度
+										<br>
+										<input type="range" min=0.1 max=1.5 step=0.1 id='intensity' style="width:125px;">
+									</td>
+								</tr>
+								<tr align="center">
+									<td colspan="2">
+										聚光燈總開關
+									</td>
+								</tr>
+								<tr align="center">
+									<td width="40%">
+										<button id="tView2">聚光燈開關</button>
+									</td>
+									<td width="60%">
+										亮度
+										<br>
+										<input type="range" min=0 max=2 step=0.1 id='intensity2' style="width:125px;">
+									</td>
+								</tr>
+							</table>
+						</div>
+					
+						<div id="container2">
+						  <canvas id='mycanvas'></canvas>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td align=left>
+						<div id="content_write"></div>
+					</td>
+					<td align=left>
+						<div id="remind">
+							<br>
+							<p>※小提醒1：如果覺得作品的燈太亮或太暗，可使用「功能選單」調整電燈及聚光燈亮度</p>
+							<p>※小提醒2：在全視角點選作品可觀看故事內容，若要觀看作品圖可點選「功能選單」→「作品編號」選擇作品做近距離觀賞</p>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		<style>
+			body{
+				background-image:url("https://i.imgur.com/J7EZqxi.jpg");
+				//background-repeat:repeat-y;
+				font-family:Microsoft JhengHei;
+				font-weight:bold;
+			}
+			
+			#welcome {
+				//border:1px solid black;
+				border-radius:10px;
+				background-color:rgba(255,255,255,0.5);
+				width:1200px;
+				height:150px;
+				text-align:center;
+				margin:0px auto;
+			}
+			
+			#main2 {
+				width:80%;
+				border-radius:10px;
+			}
+			
+			#container {
+				width:750px;
+				height:525px;
+			}
+			
+			#container2 {
+				margin-left:1vw;
+				width:350px;
+				height:210px;
+			}
+			
+			#info{
+				margin-left:3.5vw;
+				padding: 10px;
+				color: #000000;
+				font-weight:bold;
+			}
+			
+			#info td{
+				padding-top:10px;
+			}
+			
+			#content_write{
+				//border:1px solid black;
+				width:750px;
+				height:210px;
+				border-radius:10px;
+				background-color:rgba(255,255,255,0.5);
+			}
+			
+			button{
+				height:30px;width:90px;margin:5px;font-family:Microsoft JhengHei;
+			}
+
+			p {
+				margin: 10px;
+				text-align: justify;
+			}
+			
+			#welcome p {
+				text-align:center;
+			}
+			
+			#remind{
+				width:375px;
+				height:170px;
+				border-radius:10px;
+				background-color:rgba(255,255,255,0.5);
+			}
+		</style>
+		
+		<script>
+			//電燈(pointLight)物件
+			class Light {
+				constructor(posiX,posiY,posiZ) {
+					this.element = new THREE.PointLight(0xffe4ca, 1.5, 600);
+					this.element.position.set(posiX, posiY, posiZ);
+					scene.add(this.element);
+					
+					//var pointLightHelper = new THREE.PointLightHelper( this.element, 5 );
+					//scene.add( pointLightHelper );
+					/*
+					let lamp = Light.buildLamp();
+					scene.add (lamp);
+					lamp.position.copy (this.element.position);
+					lamp.position.y = 145;
+					
+					lamp.lookAt(new THREE.Vector3(posiX,0,posiZ));
+					*/
+				}
+				
+				//製作電燈
+				static buildLamp() {
+					var lampModel = new THREE.Object3D();
+					var layer2 = new THREE.Object3D();
+
+					var lamp = new THREE.Mesh (new THREE.CylinderBufferGeometry(8,5,10,32), 
+						new THREE.MeshLambertMaterial());
+					layer2.add (lamp);
+					lampModel.add (layer2);
+					layer2.rotation.x = Math.PI/2;
+					return lampModel;
+				}
+				
+				turnOff() {
+					this.element.intensity = 0.1;
+				}
+				
+				turnOn(volume) {
+					this.element.intensity = volume;
+				}
+				
+				lightChange(volume) {
+					//console.log(volume);
+					this.element.intensity = volume;
+				}
+			}
+			
+			//聚光燈(spotLight)物件
+			class Light_spot {
+				constructor(spotX,spotY,spotZ,cubeX,cubeY,cubeZ) {
+					var helper;
+					this.element = new THREE.SpotLight ();
+					this.element.position.set (spotX,spotY,spotZ);
+					this.element.angle = 1;
+					this.element.penumbra = 0.4;
+					this.element.distance = 200;
+					this.element.intensity = 1;
+					this.element.penumbra = 0.1;
+					this.element.decay = 1;
+					scene.add (this.element);
+					//scene.add (helper = new THREE.SpotLightHelper (this.element, 3));
+					
+					let lamp = Light_spot.buildLamp();
+					scene.add (lamp);
+					lamp.position.copy (this.element.position);
+					
+					var cubeGeometry = new THREE.BoxBufferGeometry (0,0,0);
+					var cubeMaterial = new THREE.MeshLambertMaterial ();
+					var cube = new THREE.Mesh (cubeGeometry, cubeMaterial);
+					cube.position.set (0, 10, 0);
+					scene.add (cube);
+					
+					this.element.target = cube;
+					cube.position.set (cubeX,cubeY,cubeZ);
+					
+					//renderer.render(scene,camera);
+					//helper.update();
+					lamp.lookAt (cube.position);
+				}
+				
+				static buildLamp() {
+					var lampModel = new THREE.Object3D();
+					var layer2 = new THREE.Object3D();
+
+					var lamp = new THREE.Mesh (new THREE.CylinderBufferGeometry(8,5,10,32), 
+						new THREE.MeshLambertMaterial());
+					layer2.add (lamp);
+					lampModel.add (layer2);
+					lamp.position.y = 1;
+					layer2.rotation.x = Math.PI/2;
+					return lampModel;
+				}
+				
+				turnOff() {
+					this.element.intensity = 0;
+				}
+				
+				turnOn(volume) {
+					this.element.intensity = volume;
+				}
+				
+				lightChange(volume) {
+					//console.log(volume);
+					this.element.intensity = volume;
+				}
+			}
+
+			//牆面物件
+			class Wall {
+				constructor(boxX,boxY,boxZ,posiX,posiY,posiZ) {
+					this.element = new THREE.Mesh(new THREE.BoxBufferGeometry(boxX,boxY,boxZ), new THREE.MeshPhongMaterial());
+					scene.add(this.element);
+					this.element.position.x = posiX;
+					this.element.position.y = posiY;
+					this.element.position.z = posiZ;
+				}
+			}
+			
+			//設計物件
+			class Design {
+				constructor(boxX,boxY,boxZ,posiX,posiY,posiZ,chairType,name) {
+					this.element = new THREE.Mesh(new THREE.BoxBufferGeometry(boxX,boxY,boxZ), new THREE.MeshPhongMaterial({
+						side: THREE.DoubleSide,
+						map: chairType
+					}));
+					scene.add(this.element);
+					this.element.position.x = posiX;
+					this.element.position.y = posiY;
+					this.element.position.z = posiZ;
+					this.element.name = name;
+				}
+			}
+			
+			//作品畫面物件
+			class Camera {
+				constructor(ww,hh,posiX,posiY,posiZ,lookX,lookY,lookZ) {
+					this.element = new THREE.PerspectiveCamera(60, ww / hh, 1, 1000);
+					this.element.position.set(posiX, posiY, posiZ);
+					this.element.lookAt(new THREE.Vector3(lookX, lookY, lookZ));
+				}
+			}
+			
+			//攝影機設計物件1
+			class Camera_Object1 {
+				constructor() {
+					this.element = new THREE.Object3D();
+					//this.element.add (new THREE.AxisHelper (40));
+					
+					var cameraBody = new THREE.Mesh (new THREE.BoxBufferGeometry (30,20,10), new THREE.MeshPhongMaterial());
+					var lens = new THREE.Mesh (new THREE.CylinderBufferGeometry (8,8,10,30), new THREE.MeshPhongMaterial());
+					lens.position.z = -5;
+					lens.rotation.x = Math.PI/2;
+					this.element.add (cameraBody, lens);
+				}
+			}
+			
+			//攝影機設計物件2
+			class Camera_Object2 {
+				constructor(posiX,posiY,posiZ,cameraObj,rotaX,rotaY,rotaZ) {
+					this.element = new THREE.Object3D();
+					this.element.add (cameraObj);
+					this.element.position.set (posiX, posiY, posiZ);
+					scene.add (this.element);
+					
+					this.element.rotation.x = rotaX;
+					this.element.rotation.y = rotaY;
+					this.element.rotation.z = rotaZ;
+					this.element.rotation.order = 'YXZ';
+				}
+			}
+			
+			//攝影機
+			var angle = 0;
+			var sign = 1;
+			var sign1 = 1;
+			
+			//畫面、電燈控制
+			var useCamera1 = 0;
+			var useCamera2 = 0;
+			var lightsOff1 = false;
+			var lightsOff2 = false;
+			var lightVolume1 = 1;
+			var lightVolume2 = 1;
+			
+			let lightness1 = document.querySelector('#intensity');
+			lightness1.addEventListener('input', function () {
+				lightVolume1 = lightness1.value;
+				if (!lightsOff1) {
+					for(var i=0;i<light.length;i++) {
+						light[i].lightChange(lightness1.value);
+					}
+				}
+			}, false);
+			
+			let lightness2 = document.querySelector('#intensity2');
+			lightness2.addEventListener('input', function () {
+				lightVolume2 = lightness2.value;
+				if (!lightsOff2) {
+					for(var i=0;i<spotLight.length;i++) {
+						spotLight[i].lightChange(lightness2.value);
+					}
+				}
+			}, false);
+
+			$('#tView1').click(function() {
+				lightsOff1 = !lightsOff1;
+			  
+				if (lightsOff1) {
+					for(var i=0;i<light.length;i++) {
+						light[i].turnOff();
+					}
+					$(this).text("關");
+				} else {
+					for(var i=0;i<light.length;i++) {
+						light[i].turnOn(lightVolume1);
+					}
+					$(this).text("開");
+				}
+			});
+			
+			$('#tView2').click(function() {
+				lightsOff2 = !lightsOff2;
+			  
+				if (lightsOff2) {
+					for(var i=0;i<spotLight.length;i++) {
+						spotLight[i].turnOff();
+					}
+					$(this).text("關");
+				} else {
+					for(var i=0;i<spotLight.length;i++) {
+						spotLight[i].turnOn(lightVolume2);
+					}
+					$(this).text("開");
+				}
+			});
+			
+			$('#chooseCamera').change(function() {
+				//console.log(this.value);
+				toggleCamera(this.value);
+			});
+			
+			$('#choosePortfolio').change(function() {
+				//console.log(this.value);
+				togglePortfolio(this.value);
+			});
+			
+			function toggleCamera(number) {
+				useCamera1 = number;
+			}
+			
+			function togglePortfolio(number) {
+				useCamera2 = number;
+			}
+		
+			var camera, scene, renderer, renderer2;
+
+			//起始畫面
+			var mouse = new THREE.Vector2();
+			var raycaster = new THREE.Raycaster();
+			var pickables = [];
+
+			//作品、攝影機畫面
+			var camera1=[];
+			var camera2=[];
+			var cameraObj1=[];
+			var cameraObj2=[];
+
+			//燈具、牆壁、椅子、作品
+			var light=[];
+			var spotLight=[];
+			var wall=[];
+			var chair=[];
+			var art=[];
+			
+			init();
+			animate();
+
+
+			function init() {
+				var ww = $("#container").innerWidth();
+				var hh = $("#container").innerHeight();
+				renderer = new THREE.WebGLRenderer();
+				renderer.setSize(ww, hh);
+				renderer.setClearColor(0x888888);
+				$("#container").append(renderer.domElement);
+
+				var ww = $("#container2").innerWidth();
+				var hh = $("#container2").innerHeight();
+				var cc = document.getElementById('mycanvas');
+				renderer2 = new THREE.WebGLRenderer({
+					canvas: cc
+				});
+				renderer2.setSize(ww, hh);
+				renderer2.setClearColor(0x888888);
+				// $("#container2").append(renderer.domElement);
+			  
+				buildScene(ww, hh);
+				window.addEventListener('resize', onWindowResize, false);
+				
+				window.addEventListener('mousedown', onDocumentMouseDown, false);
+				
+				//////////////////////////////////////////////////////////////////////////////
+				//作品展示
+				var ww1 = $("#container").innerWidth();
+				var hh1 = $("#container").innerHeight();
+				//右側作品展示
+				camera1[0] = new Camera(ww1,hh1,225,80,320,225,80,452);
+				camera1[1] = new Camera(ww1,hh1,320,80,225,452,80,225);
+				camera1[2] = new Camera(ww1,hh1,320,80,0,452,80,0);
+				camera1[3] = new Camera(ww1,hh1,320,80,-225,452,80,-225);
+				camera1[4] = new Camera(ww1,hh1,225,80,-320,225,80,-452);
+				
+				//中央作品展示
+				camera1[5] = new Camera(ww1,hh1,135,80,225,3,80,225);
+				camera1[6] = new Camera(ww1,hh1,135,80,0,3,80,0);
+				camera1[7] = new Camera(ww1,hh1,135,80,-225,3,80,-225);
+				camera1[8] = new Camera(ww1,hh1,-135,80,-225,-3,80,-225);
+				camera1[9] = new Camera(ww1,hh1,-135,80,0,-3,80,0);
+				camera1[10] = new Camera(ww1,hh1,-135,80,225,-3,80,225);
+				
+				//左側作品展示
+				camera1[11] = new Camera(ww1,hh1,-225,80,320,-225,80,452);
+				camera1[12] = new Camera(ww1,hh1,-320,80,225,-452,80,225);
+				camera1[13] = new Camera(ww1,hh1,-320,80,0,-452,80,0);
+				camera1[14] = new Camera(ww1,hh1,-320,80,-225,-452,80,-225);
+				camera1[15] = new Camera(ww1,hh1,-225,80,-320,-225,80,-452);
+				
+				//////////////////////////////////////////////////////////////////////////////
+				//攝影機
+				var ww2 = $("#container").innerWidth();
+				var hh2 = $("#container").innerHeight();
+				
+				//右側攝影機
+				camera2[0] = new THREE.PerspectiveCamera(60, ww2/hh2, 1, 1000);
+				cameraObj1[0] = new Camera_Object1();
+				cameraObj2[0] = new Camera_Object2(430, 135, 430,cameraObj1[0].element,-Math.PI/10,Math.PI/4,0);
+				
+				camera2[1] = new THREE.PerspectiveCamera(60, ww2/hh2, 1, 1000);
+				cameraObj1[1] = new Camera_Object1();
+				cameraObj2[1] = new Camera_Object2(30, 135, -430,cameraObj1[1].element,-Math.PI/10,-Math.PI*3/4,0);
+				
+				
+				//左側攝影機
+				camera2[2] = new THREE.PerspectiveCamera(60, ww2/hh2, 1, 1000);
+				cameraObj1[2] = new Camera_Object1();
+				cameraObj2[2] = new Camera_Object2(-430, 135, 430,cameraObj1[2].element,-Math.PI/10,-Math.PI/4,0);
+				
+				camera2[3] = new THREE.PerspectiveCamera(60, ww2/hh2, 1, 1000);
+				cameraObj1[3] = new Camera_Object1();
+				cameraObj2[3] = new Camera_Object2(-30, 135, -430,cameraObj1[3].element,-Math.PI/10,Math.PI*3/4,0);
+				
+				//////////////////////////////////////////////////////////////////////////////
+				//牆面
+				//右側牆面
+				wall[0] = new Wall(10, 150, 920, 455, 75, 0);
+			  
+				//中間牆面
+				wall[1] = new Wall(10, 150, 820, 0, 75, 50);
+				wall[2] = new Wall(10, 150, 20, 0, 75, -440);
+				wall[3] = new Wall(10, 30, 80, 0, 135, -390);
+			  
+				//左側牆面
+				wall[4] = new Wall(10, 150, 920, -455, 75, 0);
+			  
+				//正面牆面
+				wall[5] = new Wall(820, 150, 10, -50, 75, 455);
+				wall[6] = new Wall(20, 150, 10, 450, 75, 455);
+				wall[7] = new Wall(80, 30, 10, 400, 135, 455);
+			  
+				//背面牆面
+				wall[8] = new Wall(920, 150, 10, 0, 75, -455);
+			  
+				//////////////////////////////////////////////////////////////////////////////
+				//地面
+				let loader = new THREE.TextureLoader();
+				loader.crossOrigin = '';
+				texture = loader.load('https://i.imgur.com/AtF0mSB.jpg');
+				texture.repeat.set (2,2);
+				texture.wrapS = texture.wrapT = true;
+			  
+				let floor = new THREE.Mesh(new THREE.PlaneGeometry(920, 920), new THREE.MeshPhongMaterial({
+					side: THREE.DoubleSide,
+					map: texture
+				}));
+				scene.add(floor);
+				floor.rotation.x = -Math.PI / 2;
+			  
+				//////////////////////////////////////////////////////////////////////////////
+				//長椅材質
+				let chairtexture1 = loader.load('https://i.imgur.com/7q5CiMW.jpg');
+				chairtexture1.wrapS = chairtexture1.wrapT = true;
+			  
+				let chairtexture2 = loader.load('https://i.imgur.com/nMT3ag9.jpg');
+				chairtexture2.wrapS = chairtexture1.wrapT = true;
+			  
+				//右側長椅
+				chair[0] = new Design(60, 10, 300, 245, 65, 0, chairtexture1);
+				chair[1] = new Design(60, 60, 10, 245, 30, 145, chairtexture2);
+				chair[2] = new Design(60, 60, 10, 245, 30, -145, chairtexture2);
+			  
+				//左側長椅
+				chair[3] = new Design(60, 10, 300, -245, 65, 0, chairtexture1);
+				chair[4] = new Design(60, 60, 10, -245, 30, 145, chairtexture2);
+				chair[5] = new Design(60, 60, 10, -245, 30, -145, chairtexture2);
+				
+				//////////////////////////////////////////////////////////////////////////////
+				//電燈
+				//右側電燈
+				light[0]=new Light(445, 150, 0);
+				light[1]=new Light(445, 150, 445);
+				light[2]=new Light(445, 150, -445);
+				
+				//中央電燈
+				light[3]=new Light(0, 150, 0);
+				light[4]=new Light(0, 150, 445);
+				light[5]=new Light(0, 150, -445);
+				
+				//左側電燈
+				light[6]=new Light(-445, 150, 0);
+				light[7]=new Light(-445, 150, 445);
+				light[8]=new Light(0, 150, -445);
+				
+				//////////////////////////////////////////////////////////////////////////////
+				//聚光燈
+				//右側聚光燈
+				spotLight[0]=new Light_spot(350,140,225,450,100,225);
+				spotLight[1]=new Light_spot(350,140,0,450,100,0);
+				spotLight[2]=new Light_spot(350,140,-225,450,100,-225);
+				spotLight[3]=new Light_spot(225,140,350,225,100,450);
+				spotLight[4]=new Light_spot(225,140,-350,225,100,-450);
+			  
+			  
+				//中央聚光燈
+				spotLight[5]=new Light_spot(-100,140,225,0,100,225);
+				spotLight[6]=new Light_spot(100,140,0,0,100,0);
+				spotLight[7]=new Light_spot(100,140,225,0,100,225);
+				spotLight[8]=new Light_spot(-100,140,-225,0,100,-225);
+				spotLight[9]=new Light_spot(-100,140,0,0,100,0);
+				spotLight[10]=new Light_spot(100,140,-225,0,100,-225);
+			  
+				//左側聚光燈
+				spotLight[11]=new Light_spot(-350,140,225,-450,100,225);
+				spotLight[12]=new Light_spot(-350,140,0,-450,100,0);
+				spotLight[13]=new Light_spot(-350,140,-225,-450,100,-225);
+				spotLight[14]=new Light_spot(-225,140,350,-225,100,450);
+				spotLight[15]=new Light_spot(-225,140,-350,-225,100,-450);
+			  
+				//////////////////////////////////////////////////////////////////////////////
+				//作品
+				var arttexture = [];
+				//右側作品圖
+				arttexture[0] = loader.load('https://i.imgur.com/VZiMy1H.jpg');
+				arttexture[1] = loader.load('https://i.imgur.com/9Sty9dO.jpg');
+				arttexture[2] = loader.load('https://i.imgur.com/YxVTfp4.jpg');
+				arttexture[3] = loader.load('https://i.imgur.com/0M6qnni.jpg');
+				arttexture[4] = loader.load('https://i.imgur.com/5zWwIVe.jpg');
+			  
+				//中央作品圖
+				arttexture[5] = loader.load('https://i.imgur.com/H5JVGYT.jpg');
+				arttexture[6] = loader.load('https://i.imgur.com/23wC3Qf.jpg');
+				arttexture[7] = loader.load('https://i.imgur.com/VyJKrUD.jpg');
+				arttexture[8] = loader.load('https://i.imgur.com/aQkgz51.jpg');
+				arttexture[9] = loader.load('https://i.imgur.com/wTsmeSY.jpg');
+				arttexture[10] = loader.load('https://i.imgur.com/uvreDPf.jpg');
+			  
+				//左側作品圖
+				arttexture[11] = loader.load('https://i.imgur.com/FXQLyWN.jpg');
+				arttexture[12] = loader.load('https://i.imgur.com/8EltsGB.jpg');
+				arttexture[13] = loader.load('https://i.imgur.com/pS0pgUC.jpg');
+				arttexture[14] = loader.load('https://i.imgur.com/3wCvbCj.jpg');
+				arttexture[15] = loader.load('https://i.imgur.com/wszE8l2.jpg');
+			  
+				arttexture.wrapS = arttexture.wrapT = true;
+				//右側作品
+				art[0] = new Design(200, 112.5, 5, 225, 80, 452, arttexture[3],
+				"<p>作 品 編 號 ： 1</p>"+
+				"<p>作 品 名 稱 ： 初見紫月漾雲-barry72158(BB)</p>"+
+				"<p>時 間 ： 2011/7/19(公會：紫月漾雲)</p>"+
+				"<p>故 事 ： 小編：「BB~請問當初是怎麼被吉茵邀進紫月漾雲的？」</p>"+
+				"<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+
+				"BB：「嗯...喵帕斯~」</p>"+
+				"<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+
+				"小編：「好的~以上是我們的採訪~」</p>"+
+				"<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+				art[1] = new Design(5, 115, 152.5, 452, 80, 225, arttexture[1],
+				"<p>作 品 編 號 ： 2</p>"+
+				"<p>作 品 名 稱 ： RaidCall(RC)-barry72158(BB)</p>"+
+				"<p>時 間 ： 2011/8/6(公會：紫月漾雲)</p>"+
+				"<p>故 事 ： 背下流斬馬刀(馬刀)為紫月漾雲創建的語音群(小聲說：先前也有在無名小站建立喔~)</p>");
+				art[2] = new Design(5, 115.83, 206.67, 452, 80, 0, arttexture[0],
+				"<p>作 品 編 號 ： 3</p>"+
+				"<p>作 品 名 稱 ： 初見紫月漾雲-失落X炎魂(炎炎)</p>"+
+				"<p>時 間 ： 2011/??/??(公會：紫月漾雲)</p>"+
+				"<p>故 事 ： 在炎炎準備等高中開學期間他持續在玩艾爾，不過他所待的公會並不熱絡，某天他國中同學BB</p>"+
+				"<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+
+				"邀請他加入紫月漾雲。此時，炎炎與公會的緣分就此開始~</p>");
+				art[3] = new Design(5, 115, 152.5, 452, 80, -225, arttexture[2],
+				"<p>作 品 編 號 ： 4</p>"+
+				"<p>作 品 名 稱 ： RaidCall(RC)-失落X炎魂(炎炎)</p>"+
+				"<p>時 間 ： 2011/??/??(公會：紫月漾雲)</p>"+
+				"<p>故 事 ： 問炎炎剛進入紫月漾雲沒多久後首先遇到什麼事情？炎炎：「那就是先被某人抓去安裝RC啦</p>"+
+				"<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+
+				"~」，因為在不在艾爾都可以用RC與其他人聯絡，對於智慧型手機還不普及的年代，炎炎與</p>"+
+				"<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+
+				"BB幾乎都是這樣與網友聯絡及一起聊天與唱歌。</p>");
+				art[4] = new Design(206.67, 116.17, 5, 225, 80, -452, arttexture[4],
+				"<p>作 品 編 號 ： 5</p>"+
+				"<p>作 品 名 稱 ： Sky詠悅曲創立</p>"+
+				"<p>時 間 ： 2012/5/27(公會：Sky詠悅曲)</p>"+
+				"<p>故 事 ： 因為某些因素，造成公會成員關係分裂，後來由羽翼o月空(小空)帶領其他公會成員另創新公會</p>"+
+				"<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+
+				"。幾年過去，小空因個人因素考量，最後由o姬萱尹蕾貓o(佩琪)接管公會會長。</p>");
+			  
+				//中央作品
+				art[5] = new Design(5, 116.17, 206.67, 3, 80, 225, arttexture[6],
+				"<p>作 品 編 號 ： 6</p>"+
+				"<p>作 品 名 稱 ： 小空的邪惡城堡★</p>"+
+				"<p>時 間 ： 2012/5/27(公會：Sky詠悅曲)</p>"+
+				"<p>故 事 ： Sky詠悅曲創立後，有在使用RC的公會成員紛紛過去小空的RC聊天群組，或許有些人可能想要</p>"+
+				"<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+
+				"聽小空的聲音特地去創RC帳號也說不定(っ●ω●)っ。BB：「休想聽她的聲音，她的聲音是我</p>"+
+				"<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+
+				"的！」(被小空咬)</p>"+
+				"<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+
+				"P.S.：後續Sky詠悅曲在2012/12/5創立公會臉書</p>");
+				art[6] = new Design(5, 118.5, 132.5, 3, 80, 0, arttexture[5],
+				"<p>作 品 編 號 ： 7</p>"+
+				"<p>作 品 名 稱 ： 期末考</p>"+
+				"<p>時 間 ： 2013/1/20(公會：Sky詠悅曲)</p>"+
+				"<p>故 事 ： 在這風和日麗的一天，小空突然要舉辦一個期末考試，期末考題內容是有關於她本人相關問題</p>"+
+				"<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+
+				"分數高的人可獲得聽她唱5首歌的獎勵(之前她不會讓其他人聽到她的聲音)，究竟答案是什麼</p>"+
+				"<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+
+				"呢~(小聲說：BB被小空評分為「判定退學」...)</p>");
+				art[7] = new Design(5, 116.17, 206.67, 3, 80, -225, arttexture[7],
+				"<p>作 品 編 號 ： 8</p>"+
+				"<p>作 品 名 稱 ： 炎炎 & 薄荷婚禮</p>"+
+				"<p>時 間 ： 2014/7/25(公會：Sky詠悅曲)</p>"+
+				"<p>故 事 ： BB號稱這是「Sky詠悅曲」公會最多活人在艾爾和RC的時刻，當時大約13人共同參加艾爾及</p>"+
+				"<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+
+				"RC。殊不知是炎炎事先詢問每個人當天最可以上線的時間，因此達成這結果...</p>");
+				art[8] = new Design(5, 116.17, 206.67, -3, 80, -225, arttexture[10],
+				"<p>作 品 編 號 ： 9</p>"+
+				"<p>作 品 名 稱 ： 巧遇</p>"+
+				"<p>時 間 ： 2014/9/2(公會：Sky詠悅曲)</p>"+
+				"<p>故 事 ： 當大學以下的學生開學的時候，等待大學開學的BB與炎炎在艾爾準備各自打自己的最後一場</p>"+
+				"<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+
+				"1:1對戰。等待對戰3秒過後，眼前的人居然是各自熟悉的面孔...</p>"+
+				"<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+
+				"究竟勝利的女神是站在誰身邊呢？讓我們繼續看下去~(P.S.：解答請找BB或炎炎)</p>");
+				art[9] = new Design(5, 138.67, 166, -3, 80, 0, arttexture[8],
+				"<p>作 品 編 號 ： 10</p>"+
+				"<p>作 品 名 稱 ： 好康都是別人的...</p>"+
+				"<p>時 間 ： 2016/3/14(公會：Sky詠悅曲)</p>"+
+				"<p>故 事 ： 炎炎上大學後，因課業及社團排程較多，已經有很長一段時間無法上線，這段期間基本都是BB</p>"+
+				"<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+
+				"代替他玩他的角色。不過在某一天...</p>");
+				art[10] = new Design(5, 116.17, 206.67, -3, 80, 225, arttexture[9],
+				"<p>作 品 編 號 ： 11</p>"+
+				"<p>作 品 名 稱 ： 水下流月創立</p>"+
+				"<p>時 間 ： 2016/5/26(公會：水下流月)</p>"+
+				"<p>故 事 ： 先前公會「Sky詠悅曲」，公會會長及活躍的公會成員們皆因課業或事業要顧，陸續不再上線。</p>"+
+				"<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+
+				"時隔幾年，炎炎暫時回歸艾爾，在其他人的提議之下，便創立新公會「水下流月」及公會臉書</p>"+
+				"<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+
+				"，希望能再度打造以前的公會氣氛，後來炎炎也因課業關係離開，並由BB擔任公會會長。</p>");
+				
+			  
+				//左側作品
+				art[11] = new Design(166, 126, 5, -225, 75, 452, arttexture[14],
+				"<p>作 品 編 號 ： 12</p>"+
+				"<p>作 品 名 稱 ： 看不見的巨大強敵</p>"+
+				"<p>時 間 ： 2016/6/26(公會：水下流月)</p>"+
+				"<p>故 事 ： 在炎炎回歸期間，某一次趕著進入打巨大BOSS。雖然最後順利的進去，但眼前的敵人居然</p>"+
+				"<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+
+				"是...</p>");
+				art[12] = new Design(5, 132.67, 166.67, -452, 80, 225, arttexture[12],
+				"<p>作 品 編 號 ： 13</p>"+
+				"<p>作 品 名 稱 ： 拍謝啦!~~~</p>"+
+				"<p>時 間 ： 2016/6/26(公會：水下流月)</p>"+
+				"<p>故 事 ： 小編：「BB~請問你對這次班德隱藏事件有什麼看法？」</p>"+
+				"<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+
+				"BB：「一句話：「拍謝啦!~~~」」");
+				art[13] = new Design(5, 121.33, 201, -452, 80, 0, arttexture[11],
+				"<p>作 品 編 號 ： 14</p>"+
+				"<p>作 品 名 稱 ： 水下流月二代</p>"+
+				"<p>時 間 ： 2018/?/?(公會：水下流月)</p>"+
+				"<p>故 事 ：  炎炎離開艾爾及RC這段期間，BB曾去其他公會參觀。某一天，BB的其他公會因為某些因素發</p>"+
+				"<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+
+				"生問題，而在其他公會的公會成員提議下，最後邀請他們進入水下流月。此時，公會再度熱絡</p>"+
+				"<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+
+				"起來。(炎炎：「我回來RC後，遇到好多不熟悉的面孔，而且公會也在我離開期間有了LINE</p>"+
+				"<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+
+				"群，名字各式各樣，誰是誰傻傻分不清楚~」)</p>");
+				art[14] = new Design(5, 126.33, 164.67, -452, 80, -225, arttexture[13],
+				"<p>作 品 編 號 ： 15</p>"+
+				"<p>作 品 名 稱 ： 都更</p>"+
+				"<p>時 間 ： 2018/11/3(公會：水下流月)</p>"+
+				"<p>故 事 ： 某一天，BB原本還處在自己熟悉的起始公會環境，但是下一秒...</p>");
+				art[15] = new Design(195.14, 104, 5, -225, 80, -452, arttexture[15],
+				"<p>作 品 編 號 ： 16</p>"+
+				"<p>作 品 名 稱 ： Discord</p>"+
+				"<p>時 間 ： 2019/3/19(公會：水下流月)</p>"+
+				"<p>故 事 ： 3/19這天RC突然發布他們營運準備於4/20關閉的消息，RC以前的語音群即將被消除，所有回</p>"+
+				"<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+
+				"憶的東西即將消失。不過沒關係，往事我們已經留下來了，我們將會把往事一併帶往新的地</p>"+
+				"<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+
+				"方「Discord」，未來水下流月會有什麼故事呢？就敬請期待吧^^~");
+				
+				for(let i=0;i<art.length;i++) {
+					pickables.push (art[i].element);
+				}
+			}
+
+			function buildScene(ww, hh) {
+				scene = new THREE.Scene();
+				scene = new THREE.Scene();
+				camera = new THREE.PerspectiveCamera(50, ww / hh, 1, 10000);
+				//camera.position.z = 500;
+				camera.position.y = 400;
+				camera.position.z = 600;
+
+				var gridXZ = new THREE.GridHelper(200, 20, 'red', 'white');
+				//gridXZ.rotation.x = Math.PI / 2;
+				//scene.add(gridXZ);
+
+				controls = new THREE.OrbitControls(camera, renderer.domElement);
+			}
+
+			function onWindowResize() {
+				var ww = $("#container").innerWidth();
+				var hh = $("#container").innerHeight();
+
+				camera.aspect = ww / hh;
+				camera.updateProjectionMatrix();
+				renderer.setSize(ww, hh);
+
+				ww = $("#container2").innerWidth();
+				hh = $("#container2").innerHeight();
+				renderer2.setSize(ww, hh);
+
+			}
+			
+			function onDocumentMouseDown(event) {
+				var viewportPos =$('#container').get(0).getBoundingClientRect(); 
+				mouse.x = ((event.clientX - viewportPos.left) / $('#container').innerWidth()) * 2 - 1;
+				mouse.y = -((event.clientY - viewportPos.top) / $('#container').innerHeight()) * 2 + 1;
+
+				raycaster.setFromCamera(mouse, camera);
+				var intersects = raycaster.intersectObjects (pickables);
+				if (intersects.length > 0) {
+					document.getElementById("content_write").innerHTML=intersects[0].object.name;
+				}
+			}
+
+			function animate() {
+				requestAnimationFrame(animate);
+				
+				//////////////////////////////////////////////////////////////////////////////
+				//作品展示畫面
+				let nowCamera1;
+				switch(useCamera2) {
+					case "1":
+						nowCamera1 = camera1[0].element;
+						break;
+					case "2":
+						nowCamera1 = camera1[1].element;
+						break;
+					case "3":
+						nowCamera1 = camera1[2].element;
+						break;
+					case "4":
+						nowCamera1 = camera1[3].element;
+						break;
+					case "5":
+						nowCamera1 = camera1[4].element;
+						break;
+					case "6":
+						nowCamera1 = camera1[5].element;
+						break;
+					case "7":
+						nowCamera1 = camera1[6].element;
+						break;
+					case "8":
+						nowCamera1 = camera1[7].element;
+						break;
+					case "9":
+						nowCamera1 = camera1[8].element;
+						break;
+					case "10":
+						nowCamera1 = camera1[9].element;
+						break;
+					case "11":
+						nowCamera1 = camera1[10].element;
+						break;
+					case "12":
+						nowCamera1 = camera1[11].element;
+						break;
+					case "13":
+						nowCamera1 = camera1[12].element;
+						break;
+					case "13":
+						nowCamera1 = camera1[12].element;
+						break;
+					case "14":
+						nowCamera1 = camera1[13].element;
+						break;
+					case "15":
+						nowCamera1 = camera1[14].element;
+						break;
+					case "16":
+						nowCamera1 = camera1[15].element;
+						break;
+					default:
+						nowCamera1 = camera;
+				}
+				//console.log(useCamera2);
+				
+				//////////////////////////////////////////////////////////////////////////////
+				//攝影機、攝影機鏡頭控制
+				if(sign != 0) {
+					angle += 0.002*sign;
+					if (angle > 0.3 || angle < -0.3) {
+						sign1 = sign;
+						sign = 0;
+						
+						setTimeout(function(){
+							sign = sign1;
+							if (angle > 0.3 || angle < -0.3) {
+								sign *= -1;
+							}
+						},1500);
+					}
+				}
+				//console.log(angle);
+				
+				for(let i=0;i<camera2.length;i++) {
+					cameraObj1[i].element.rotation.y = angle;
+					camera2[i].matrixWorld.copy (cameraObj1[i].element.matrixWorld);
+					camera2[i].matrixAutoUpdate = false;
+				}
+				
+				let nowCamera;
+				switch(useCamera1) {
+					case "1":
+						nowCamera = camera2[0];
+						break;
+					case "2":
+						nowCamera = camera2[1];
+						break;
+					case "3":
+						nowCamera = camera2[2];
+						break;
+					case "4":
+						nowCamera = camera2[3];
+						break;
+					default:
+						nowCamera = camera;
+				}
+				
+				//////////////////////////////////////////////////////////////////////////////
+				renderer.render(scene, nowCamera1);
+				renderer2.render(scene, nowCamera);
+			}
+		</script>
+	</body>
+</html>
