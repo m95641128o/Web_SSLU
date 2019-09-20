@@ -3,7 +3,7 @@ html,body{ /*1*/
 }
 
 body{
-	background-image:url(../images/Elsword.jpg); /*2*/ /*放入背景圖片*/
+	background-image:url(../images/Elsword_Mega_Cake.jpg); /*2*/ /*放入背景圖片*/
 	background-repeat:repeat-y; /*背景圖片不重複:no-repeat*/
 	background-size:cover; /*包覆全部*/
 	background-attachment:fixed; /*圖片背景固定*/
@@ -19,6 +19,10 @@ a,p,h1,h2,h3,span{ /*7*/
 	font-family:Microsoft JhengHei; /*字型:微軟正黑體*/
 	font-weight:bold; /*字型:粗體*/
 	text-decoration:none; /*超連結底線去除*/
+}
+
+a,p,span{
+	font-size:17px;
 }
 
 h1{
@@ -66,7 +70,8 @@ nav.menu ul li a{ /*6*/
 	/*color:#fff;*/
 	/*display:block;*/  /*設為區塊*/
 	/*padding:10px 20px;*/
-	padding:0px 40px;
+	padding:0px 37.1px;
+	font-size:17px;
 }
 
 nav.menu ul li a:hover{ /*8*/ /*事件:游標移動到此位置*/
