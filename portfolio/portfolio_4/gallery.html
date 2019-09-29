@@ -160,6 +160,11 @@
 				margin: 10px;
 				text-align: justify;
 			}
+			
+			a {
+				text-decoration: none;
+				color: #0066FF;
+			}
 		</style>
 		
 		<script>
@@ -632,27 +637,43 @@
 			  
 				arttexture.wrapS = arttexture.wrapT = true;
 				//右側作品
-				art[0] = new Design(120.5, 116.75, 5, 225, 80, 452, arttexture[3],"作品1");
-				art[1] = new Design(5, 118.5, 118.5, 452, 80, 225, arttexture[1],"作品2");
-				art[2] = new Design(5, 120, 160, 452, 80, 0, arttexture[0],"作品3");
-				art[3] = new Design(5, 117.25, 82.5, 452, 80, -225, arttexture[2],"作品4");
-				art[4] = new Design(116.75, 116.75, 5, 225, 80, -452, arttexture[4],"作品5");
+				art[0] = new Design(120.5, 116.75, 5, 225, 80, 452, arttexture[3],"<p>作 品 編 號：1</p>"+
+				"<p>作 品 下 載：<a href='https://i.imgur.com/gynPiYO.jpg' target='_blank'>連結</a></p>");
+				art[1] = new Design(5, 118.5, 118.5, 452, 80, 225, arttexture[1],"<p>作 品 編 號：2</p>"+
+				"<p>作 品 下 載：<a href='https://i.imgur.com/VRpBmVc.jpg' target='_blank'>連結</a></p>");
+				art[2] = new Design(5, 120, 160, 452, 80, 0, arttexture[0],"<p>作 品 編 號：3</p>"+
+				"<p>作 品 下 載：<a href='https://i.imgur.com/FUvTiP4.jpg' target='_blank'>連結</a></p>");
+				art[3] = new Design(5, 117.25, 82.5, 452, 80, -225, arttexture[2],"<p>作 品 編 號：4</p>"+
+				"<p>作 品 下 載：<a href='https://i.imgur.com/pEp1c8q.jpg' target='_blank'>連結</a></p>");
+				art[4] = new Design(116.75, 116.75, 5, 225, 80, -452, arttexture[4],"<p>作 品 編 號：5</p>"+
+				"<p>作 品 下 載：<a href='https://i.imgur.com/ZYHxtgg.jpg' target='_blank'>連結</a></p>");
 			  
 				//中央作品
-				art[5] = new Design(5, 117, 159.5, 3, 80, 225, arttexture[6],"作品6");
-				art[6] = new Design(5, 116.75, 80.5, 3, 80, 0, arttexture[5],"作品7");
-				art[7] = new Design(5, 116.75, 87.5, 3, 80, -225, arttexture[7],"作品8");
-				art[8] = new Design(5, 117, 207.75, -3, 80, -225, arttexture[10],"作品9");
-				art[9] = new Design(5, 116.75, 87, -3, 80, 0, arttexture[8],"作品10");
-				art[10] = new Design(5, 117, 207.75, -3, 80, 225, arttexture[9],"作品11");
+				art[5] = new Design(5, 117, 159.5, 3, 80, 225, arttexture[6],"<p>作 品 編 號：6</p>"+
+				"<p>作 品 下 載：<a href='https://i.imgur.com/OCGUEhZ.jpg' target='_blank'>連結</a></p>");
+				art[6] = new Design(5, 116.75, 80.5, 3, 80, 0, arttexture[5],"<p>作 品 編 號：7</p>"+
+				"<p>作 品 下 載：<a href='https://i.imgur.com/j7P9n6l.jpg' target='_blank'>連結</a></p>");
+				art[7] = new Design(5, 116.75, 87.5, 3, 80, -225, arttexture[7],"<p>作 品 編 號：8</p>"+
+				"<p>作 品 下 載：<a href='https://i.imgur.com/lm6GkOC.jpg' target='_blank'>連結</a></p>");
+				art[8] = new Design(5, 117, 207.75, -3, 80, -225, arttexture[10],"<p>作 品 編 號：9</p>"+
+				"<p>作 品 下 載：<a href='https://i.imgur.com/QA8SuUx.jpg' target='_blank'>連結</a></p>");
+				art[9] = new Design(5, 116.75, 87, -3, 80, 0, arttexture[8],"<p>作 品 編 號：10</p>"+
+				"<p>作 品 下 載：<a href='https://i.imgur.com/XKbXszU.jpg' target='_blank'>連結</a></p>");
+				art[10] = new Design(5, 117, 207.75, -3, 80, 225, arttexture[9],"<p>作 品 編 號：11</p>"+
+				"<p>作 品 下 載：<a href='https://i.imgur.com/GwZHHov.jpg' target='_blank'>連結</a></p>");
 				
 			  
 				//左側作品
-				art[11] = new Design(79, 117, 5, -225, 75, 452, arttexture[14],"作品12");
-				art[12] = new Design(5, 117, 73, -452, 80, 225, arttexture[12],"作品13");
-				art[13] = new Design(5, 116.75, 87.5, -452, 80, 0, arttexture[11],"作品14");
-				art[14] = new Design(5, 117, 173, -452, 80, -225, arttexture[13],"作品15");
-				art[15] = new Design(77.75, 116.75, 5, -225, 80, -452, arttexture[15],"作品16");
+				art[11] = new Design(79, 117, 5, -225, 75, 452, arttexture[14],"<p>作 品 編 號：12</p>"+
+				"<p>作 品 下 載：<a href='https://i.imgur.com/g6xnzVh.jpg' target='_blank'>連結</a></p>");
+				art[12] = new Design(5, 117, 73, -452, 80, 225, arttexture[12],"<p>作 品 編 號：13</p>"+
+				"<p>作 品 下 載：<a href='https://i.imgur.com/TkQe39E.jpg' target='_blank'>連結</a></p>");
+				art[13] = new Design(5, 116.75, 87.5, -452, 80, 0, arttexture[11],"<p>作 品 編 號：14</p>"+
+				"<p>作 品 下 載：<a href='https://i.imgur.com/doi2ljq.jpg' target='_blank'>連結</a></p>");
+				art[14] = new Design(5, 117, 173, -452, 80, -225, arttexture[13],"<p>作 品 編 號：15</p>"+
+				"<p>作 品 下 載：<a href='https://i.imgur.com/FCVUAJO.jpg' target='_blank'>連結</a></p>");
+				art[15] = new Design(77.75, 116.75, 5, -225, 80, -452, arttexture[15],"<p>作 品 編 號：16</p>"+
+				"<p>作 品 下 載：<a href='https://i.imgur.com/k5eYo9Z.jpg' target='_blank'>連結</a></p>");
 				
 				for(let i=0;i<art.length;i++) {
 					pickables.push (art[i].element);
